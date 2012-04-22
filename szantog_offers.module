@@ -8,3 +8,13 @@
  *    http://szantogabor.com
  *
  */
+
+/**
+ * Implements hook_views_api().
+ */
+function szantog_offers_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'szantog_offers') . '/views',
+  );
+}
