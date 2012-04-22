@@ -1,6 +1,6 @@
 name = szantog offers
 description = Some useful stuff and customization by <a href="http://drupal.org/user/610310/">Gabor Szanto</a>
 package = Other
-core = 6.x
+core = 7.x
 
 dependencies[] = views_bulk_operations

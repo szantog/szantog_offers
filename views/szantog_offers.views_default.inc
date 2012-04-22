@@ -3,7 +3,7 @@
 /**
  * Implements hook_views_default_views().
  */
-function views_bulk_operations_views_default_views() {
+function szantog_offers_views_default_views() {
   $views = array();
 
   $view = new view;
