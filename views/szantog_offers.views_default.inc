@@ -7,7 +7,7 @@ function szantog_offers_views_default_views() {
   $views = array();
 
   $view = new view;
-  $view->name = 'people';
+  $view->name = 'szantog_people';
   $view->description = 'An advanced view to search and adminsiter users.';
   $view->tag = 'default';
   $view->base_table = 'users';
@@ -277,6 +277,7 @@ function szantog_offers_views_default_views() {
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
-
+  $views[$view->name] = $view;
+  
   return $views;
 }
