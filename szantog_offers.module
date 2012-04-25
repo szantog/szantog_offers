@@ -18,3 +18,12 @@ function szantog_offers_views_api() {
     'path' => drupal_get_path('module', 'szantog_offers') . '/views',
   );
 }
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function szantog_offers_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'addressfield') {
+    return 'plugins/' . $plugin;
+  }
+}
