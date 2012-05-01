@@ -57,5 +57,4 @@ function SAMPLE_preprocess_openlayers_map(&$vars) {
 
   $js = array('openlayers' => array('maps' => array($map['id'] => $map)));
   drupal_add_js($js, 'setting');
-  dsm(get_defined_vars());
 }

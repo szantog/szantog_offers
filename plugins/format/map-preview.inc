@@ -163,7 +163,7 @@ function _szantog_offers_openlayers_map($map_name, $items) {
       'map' => $map,
       'map_name' => $map_name
     ));
-    dsm(get_defined_vars());
+    //dsm(get_defined_vars());
     return $output;
   }
 }
