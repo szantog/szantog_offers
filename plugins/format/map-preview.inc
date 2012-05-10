@@ -51,6 +51,7 @@ function szantog_offers_map_preview_format_generate(&$format, $address, $context
         )
       ),
       '#weight' => -100,
+      '#prefix' => '<div class="address">',
     );
 
 
@@ -77,20 +78,21 @@ function szantog_offers_map_preview_format_generate(&$format, $address, $context
 
     // Street block customizations.
     $format['street_block']['thoroughfare']['#title'] = t('Street');
+    $format['street_block']['thoroughfare']['#required'] = FALSE;
     $format['street_block']['thoroughfare']['#ajax'] = array(
       'callback' => 'szantog_offers_build_map_preview',
       'wrapper' => 'my-map-preview',
       'method' => 'replace',
     );
 
-    $geometry = geocoder('google', geocoder_widget_parse_addressfield($address));
-    $geometries = array($geometry);
-    $values = geocoder_widget_resolve_deltas($geometries, 'default', 'geofield');
-    $items = array($values[0]);
-    $format['street_block']['#suffix'] =  '<div id="my-map-preview">' . _szantog_offers_openlayers_map('goloro_widget_map', $items) . '</div>';
-
+    if ($geometry = geocoder('google', geocoder_widget_parse_addressfield($address))) {
+      $geometries = array($geometry);
+      $values = geocoder_widget_resolve_deltas($geometries, 'default', 'geofield');
+      $items = array($values[0]);
+      // Close  "address" div opened in name_block and add map widget.
+      $format['street_block']['#suffix'] = '</div><div id="my-map-preview">' . _szantog_offers_openlayers_map('goloro_widget_map', $items) . '</div>';
+    }
     // Add suffix to render the map.
-
 
     if (isset($format['street_block']['premise'])) {
       unset($format['street_block']['premise']);
@@ -100,12 +102,11 @@ function szantog_offers_map_preview_format_generate(&$format, $address, $context
     }
   }
   $runned = TRUE;
-  //dsm(get_defined_vars());
 }
 
 function szantog_offers_build_map_preview($form, $form_state) {
   $fetched = &drupal_static(__FUNCTION__, FALSE);
-
+   $items = array();
   if (!$fetched) {
     $fetched = TRUE;
   }
@@ -113,10 +114,11 @@ function szantog_offers_build_map_preview($form, $form_state) {
     return;
   }
   foreach ($form_state['addressfield'] as $key => &$address) {
-    $geometry = geocoder('google', geocoder_widget_parse_addressfield($address));
-    $geometries = array($geometry);
-    $values = geocoder_widget_resolve_deltas($geometries, 'default', 'geofield');
-    $items = array($values[0]);
+    if ($geometry = geocoder('google', geocoder_widget_parse_addressfield($address))) {
+      $geometries = array($geometry);
+      $values = geocoder_widget_resolve_deltas($geometries, 'default', 'geofield');
+      $items = array($values[0]);
+    };
   }
 
   $return = array(
@@ -134,17 +136,19 @@ function _szantog_offers_openlayers_map($map_name, $items) {
   $map = openlayers_build_map($preset->data);
 
   // Create array of $features
-  foreach ($items as $delta) {
-    $features[] = array(
-      'wkt' => $delta['wkt'],
-      'projection' => '4326',
-    );
-    $center = szantog_offers_parse_wkt($delta['wkt']);
-    $map['center']['initial']['centerpoint'] = $center;
-  }
+  if (!empty($items)) {
+    foreach ($items as $delta) {
+      $features[] = array(
+        'wkt' => $delta['wkt'],
+        'projection' => '4326',
+      );
+      $center = szantog_offers_parse_wkt($delta['wkt']);
+      $map['center']['initial']['centerpoint'] = $center;
+    }
 
-  // Get map preset
-  $map['layers']['geofield_formatter']['features'] = $features;
+    // Get map preset
+    $map['layers']['geofield_formatter']['features'] = $features;
+  }
 
   if (!isset($map['layers']['geofield_formatter'])) {
     drupal_set_message(t('Trying to ratter on a map without the placeholder layer'), 'error');
