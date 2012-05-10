@@ -19,6 +19,7 @@ function szantog_offers_loc_adm_country_format_generate(&$format, $address, $con
 
     if (!empty($address['locality'])) {
       $format['locality'] = $original_format['locality_block']['locality'];
+      unset($format['locality']['#prefix']);
       if (!empty($address['country']) || !empty($address['administrative_area'])) {
         $format['locality']['#suffix'] = ', ';
       }
