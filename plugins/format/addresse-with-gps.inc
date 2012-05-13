@@ -16,7 +16,7 @@ function szantog_offers_addresse_with_gps_format_generate(&$format, $address, $c
   if ($context['mode'] == 'render') {
     $format['city_with_country'] = array(
       '#type' => 'addressfield_container',
-      '#attributes' => array('class' => array('addressfield-container-inline', 'city-with-country')),
+      '#attributes' => array('class' => array('addressfield-container-inline', 'city-with-country', 'colored-text')),
       '#weight' => -100,
     );
     $format['city_with_country']['locality'] = array(
@@ -38,12 +38,13 @@ function szantog_offers_addresse_with_gps_format_generate(&$format, $address, $c
       '#attributes' => array('class' => array('postal-code')),
     );
     $format['full_address']['locality'] = array(
-      '#suffix' => ', ',
       '#attributes' => array('class' => array('locality')),
     );
     $format['full_address']['thoroughfare'] = array(
-      '#suffix' => ' ',
       '#attributes' => array('class' => array('thoroughfare')),
     );
+    if (!empty($address['thoroughfare'])) {
+      $format['full_address']['locality']['#suffix'] = ', ';
+    }
   }
 }
