@@ -54,7 +54,7 @@ function szantog_offers_map_preview_format_generate(&$format, $address, $context
       '#prefix' => '<div class="address">',
     );
 
-
+    $format['country']['#ajax']['callback'] = 'szantog_offers_widget_refresh';
     $format['country']['#weight'] = 40;
     $format['locality_block']['#weight'] = 60;
     $format['street_block']['#weight'] = 70;
@@ -90,7 +90,7 @@ function szantog_offers_map_preview_format_generate(&$format, $address, $context
       $values = geocoder_widget_resolve_deltas($geometries, 'default', 'geofield');
       $items = array($values[0]);
       // Close  "address" div opened in name_block and add map widget.
-      $format['street_block']['#suffix'] = '</div><div id="my-map-preview"><div class="map-container">' . _szantog_offers_openlayers_map('goloro_widget_map', $items) . '</div></div>';
+      //$format['street_block']['#suffix'] = '</div><div id="my-map-preview"><div class="map-container">' . _szantog_offers_openlayers_map('goloro_widget_map', $items) . '</div></div>';
     }
     // Add suffix to render the map.
 
