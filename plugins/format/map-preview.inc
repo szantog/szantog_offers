@@ -74,8 +74,10 @@ function szantog_offers_map_preview_format_generate(&$format, $address, $context
       );
       $format['administrative']['administrative_area'] = $format['locality_block']['administrative_area'];
       unset($format['locality_block']['administrative_area']);
+      if ($address['country'] == 'ES') {
+        $format['administrative']['administrative_area']['#title'] = t('Province');
+      }
     }
-
     // Street block customizations.
     $format['street_block']['thoroughfare']['#title'] = t('Street');
     $format['street_block']['thoroughfare']['#required'] = FALSE;
