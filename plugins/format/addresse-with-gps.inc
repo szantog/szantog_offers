@@ -14,20 +14,6 @@ $plugin = array(
 
 function szantog_offers_addresse_with_gps_format_generate(&$format, $address, $context = array()) {
   if ($context['mode'] == 'render') {
-    $format['city_with_country'] = array(
-      '#type' => 'addressfield_container',
-      '#attributes' => array('class' => array('addressfield-container-inline', 'city-with-country', 'colored-text')),
-      '#weight' => -100,
-    );
-    $format['city_with_country']['locality'] = array(
-      '#suffix' => ', ',
-      '#attributes' => array('class' => array('locality')),
-    );
-    $format['city_with_country']['country'] = array(
-      '#options' => _addressfield_country_options_list(),
-      '#attributes' => array('class' => array('country')),
-    );
-
     $format['full_address'] = array(
       '#type' => 'addressfield_container',
       '#attributes' => array('class' => array('addressfield-container', 'full-address')),
@@ -39,12 +25,15 @@ function szantog_offers_addresse_with_gps_format_generate(&$format, $address, $c
     );
     $format['full_address']['locality'] = array(
       '#attributes' => array('class' => array('locality')),
+      '#suffix' => ', ',
     );
     $format['full_address']['thoroughfare'] = array(
       '#attributes' => array('class' => array('thoroughfare')),
+      '#suffix' => ', ',
     );
-    if (!empty($address['thoroughfare'])) {
-      $format['full_address']['locality']['#suffix'] = ', ';
-    }
-  }
+    $format['full_address']['country'] = array(
+      '#options' => _addressfield_country_options_list(),
+      '#attributes' => array('class' => array('country')),
+    );
+   }
 }
