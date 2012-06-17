@@ -6,13 +6,14 @@
  */
 
 $plugin = array(
-  'title' => t('Display the following format: [locality], [administrative_area], [country].'),
+  'title' => t('Display the following format: [locality], [administrative_area], [country]. Use this with Address form (country-specific) together!'),
   'format callback' => 'szantog_offers_loc_adm_country_format_generate',
   'type' => 'address',
   'weight' => 100,
 );
 
 function szantog_offers_loc_adm_country_format_generate(&$format, $address, $context = array()) {
+  // This only works, when Address form (country-specific) is turned on!
   if ($context['mode'] == 'render') {
     $original_format = $format;
     $format = array();
