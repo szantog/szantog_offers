@@ -161,8 +161,8 @@ function _szantog_offers_openlayers_map($map_name, $items) {
 
   // Return themed map if no errors found
   if (empty($map['errors'])) {
-    //$js = array('openlayers' => array('maps' => array($map['id'] => $map)));
-    //drupal_add_js($js, 'setting');
+    $js = array('openlayers' => array('maps' => array($map['id'] => $map)));
+    drupal_add_js($js, 'setting');
 
     // Push map through theme function and return
     $output = theme('openlayers_map', array(
