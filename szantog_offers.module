@@ -82,3 +82,19 @@ function SAMPLE_preprocess_openlayers_map(&$vars) {
   $js = array('openlayers' => array('maps' => array($map['id'] => $map)));
   drupal_add_js($js, 'setting');
 }
+
+/**
+ * Implements hook_metatag_info_alter().
+ */
+function szantog_offers_metatag_info() {
+  $info['tags']['fb:app_id'] = array(
+    'label' => t('Open Graph Facebook App id.'),
+    'description' => t('The id of facebook application connected to the site.'),
+    'class' => 'DrupalTextMetaTag',
+    'group' => 'open-graph',
+    'element' => array(
+      '#theme' => 'metatag_opengraph',
+    ),
+  );
+  return $info;
+}
